@@ -1,0 +1,119 @@
+[
+  {
+    "u_name": "UCR",
+    "u_url": "https://revistas.ucr.ac.cr/index.php/",
+    "journals":[
+      {
+        "name": "Actualidades Investigativas En Educacion",
+        "field":"Educacion",
+        "url": "aie/search/"
+      },
+      {
+        "name": "Cuadernos de Investigación y Formación en Educación Matemática",
+        "field":"Educacion",
+        "url": "cifem/search/" 
+      },
+      {
+        "name": "Revista Estudios",
+        "field":"Educacion",
+        "url": "estudios/search/"
+      },
+      {
+        "name": "Gestión de la Educación",
+        "field":"Educacion",
+        "url":"gestedu/search/"
+      },
+      {
+        "name": "Odovtos",
+        "field":"Educacion",
+        "url":"Odontos/search/"
+      },
+      {
+        "name": "Pensar en Movimiento",
+        "field":"Educacion",
+        "url":"pem/search/"
+      },
+      {
+        "name":"e-Ciencias de la Información",
+        "field":"Ingenieria",
+        "url":"eciencias/search/"
+      },
+      {
+        "name":"Ingeniería",
+        "field":"Ingenieria",
+        "url":"ingenieria/search/"
+      },
+      {
+        "name":"Revista de ciencia y tecnología",
+        "field":"Ingenieria",
+        "url":"cienciaytecnologia/search/"
+      },
+      {
+        "name":"Infraestructura Vial",
+        "field":"Ingenieria",
+        "url":"vial/search/"
+      },
+      {
+        "name":"InterSedes",
+        "field":"Interdisciplinar",
+        "url":"intersedes/search/"
+      },
+      {
+        "name":"Káñina",
+        "field":"Artes y letras",
+        "url":"kanina/search/"
+      },
+      {
+        "name":"Biología tropical",
+        "field":"Biologia",
+        "url":"rbt/search/"
+      },
+      {
+        "name":"Revista de ciencias economicas",
+        "field":"Economia",
+        "url":"economicas/search/"
+      },
+      {
+        "name":"Revista de ciencias juridicas",
+        "field":"Derecho",
+        "url":"juridicas/search/"
+      },
+      {
+        "name":"Revista de ciencias sociales",
+        "field":"Ciencias sociales",
+        "url":"sociales/search/"
+      },
+      {
+        "name":"Filología y Linguística de la UCR",
+        "field":"Ciencias sociales",
+        "url":"filyling/search/"
+      },
+      {
+        "name":"Filosofía de la UCR",
+        "field":"Ciencias sociales",
+        "url":"filosofia/search/"
+      },
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      },
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ] 
+  },
+  {
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  }
+]
