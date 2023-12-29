@@ -1,5 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor
+
+class Result:
+  def __init__(self, title, url):
+    self.title = title
+    self.url = url
+
+results = []
 
 database = [
   {
@@ -130,18 +138,39 @@ class Colors:
   MAGENTA = '\033[35m'
 
 class MyPrinter:
-  def print_field(message):
+  def print_field(self, message):
     print(f"{Colors.MAGENTA}{message}{Colors.MAGENTA}")
-  def print_warning(message):
+  def print_warning(self, message):
     print(f"{Colors.YELLOW}{message}{Colors.YELLOW}")
-  def print_info(message):
+  def print_info(self, message):
     print(f"{Colors.WHITE}{message}{Colors.WHITE}")
-  def print_finding(message):
+  def print_finding(self, message):
     print(f"{Colors.GREEN}{message}{Colors.GREEN}")
-  def print_error(message):
-    print(f'{Colors.RED}Request error: {message}{Colors.RED}')
-  def print_link(message):
+  def print_error(self, message):
+    print(f'{Colors.RED}Error: {message}{Colors.RED}')
+  def print_link(self, message):
     print(f'{Colors.BLUE}AT: {message}{Colors.BLUE}')
+
+def fetch_journal_data(u_name, u_url, journal):
+  url = u_url + journal.get("url") + search_criteria
+  name = journal.get("name")
+  if name:
+    response = requests.get(url)
+    if response.status_code == 200:
+      soup = BeautifulSoup(response.text, 'lxml')
+      divs = soup.find_all('div', class_='article-summary-title')
+      if divs:
+        MyPrinter.print_warning(f'{name}')
+        MyPrinter.print_info(f'Results: {len(divs)}')
+        for div in divs:
+          title = div.get_text(strip=True)
+          link = div.find('a')['href']
+          result = Result(title, link)
+          results.append(result)
+          MyPrinter.print_finding(title)
+          MyPrinter.print_link(link)
+    else:
+      MyPrinter.print_error(response.status_code)
 
 def get_search_criteria():
   search_criteria = input('Please enter a search criteria without using punctuation symbols: ')
@@ -159,30 +188,12 @@ def get_search_criteria():
 
 search_criteria = get_search_criteria()
 
-for university in database:
-  u_url = university.get("u_url")
-  u_name = university.get("u_name")
-  if u_url:
-    if u_name:
-      MyPrinter.print_info(f'Searching at {u_name}')
-    for journal in university.get("journals"):
-      url = u_url + journal.get("url") + search_criteria
-      name = journal.get("name")
-      if name:
-        MyPrinter.print_field(f'Field: {journal.get("field")}')
-        MyPrinter.print_info(f'Searching into {name}')
-        MyPrinter.print_info(f'Using {url} Please wait...')
-        response = requests.get(url)
-      
-        if response.status_code == 200:
-          soup = BeautifulSoup(response.text, 'lxml')
-          divs = soup.find_all('div', class_='article-summary-title')
-          if divs:
-            MyPrinter.print_warning(f'{len(divs)} Results')
-            for div in divs:
-              MyPrinter.print_finding(div.get_text(strip=True))
-              MyPrinter.print_link(div.find('a')['href'])
-          else:
-            MyPrinter.print_warning(f'{len(divs)} Results')
-        else:
-          MyPrinter.print_error(response.status_code)
+with ThreadPoolExecutor(max_workers=10) as executor:
+  for university in database:
+    u_url = university.get("u_url")
+    u_name = university.get("u_name")
+    if u_url and u_name:
+      futures = [executor.submit(fetch_journal_data, u_name, u_url, journal) for journal in university.get("journals")]
+
+for future in futures:
+  future.result()
