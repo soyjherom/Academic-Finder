@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import time
 
 journals = [
   {
@@ -148,6 +149,8 @@ def set_search_criteria():
 
 search_criteria = set_search_criteria()
 
+start_time = time.time()
+
 for journal in journals:
   url = journal.get("url")
   if url:
@@ -170,3 +173,7 @@ for journal in journals:
         MyPrinter.print_warning(f'{len(divs)} Results')
     else:
       MyPrinter.print_error(response.status_code)
+
+end_time = time.time()
+total_time = end_time - start_time
+MyPrinter.print_warning(f'Time spent: {total_time}')
