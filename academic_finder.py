@@ -1,4 +1,5 @@
 import requests
+import time
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
 
@@ -138,20 +139,32 @@ class Colors:
   MAGENTA = '\033[35m'
 
 class MyPrinter:
-  def print_field(self, message):
+  
+  @staticmethod
+  def print_field(message):
     print(f"{Colors.MAGENTA}{message}{Colors.MAGENTA}")
-  def print_warning(self, message):
+  
+  @staticmethod
+  def print_warning(message):
     print(f"{Colors.YELLOW}{message}{Colors.YELLOW}")
-  def print_info(self, message):
+  
+  @staticmethod 
+  def print_info(message):
     print(f"{Colors.WHITE}{message}{Colors.WHITE}")
-  def print_finding(self, message):
+  
+  @staticmethod
+  def print_finding(message):
     print(f"{Colors.GREEN}{message}{Colors.GREEN}")
-  def print_error(self, message):
+  
+  @staticmethod
+  def print_error(message):
     print(f'{Colors.RED}Error: {message}{Colors.RED}')
-  def print_link(self, message):
+  
+  @staticmethod
+  def print_link(message):
     print(f'{Colors.BLUE}AT: {message}{Colors.BLUE}')
 
-def fetch_journal_data(u_name, u_url, journal):
+def fetch_journal_data(u_name, u_url, journal, search_criteria):
   url = u_url + journal.get("url") + search_criteria
   name = journal.get("name")
   if name:
@@ -186,14 +199,24 @@ def get_search_criteria():
     search_criteria += "&dateToYear=" + date_to_year
   return search_criteria
 
-search_criteria = get_search_criteria()
+def main():
+  search_criteria = get_search_criteria()
+  
+  start_time = time.time()
 
-with ThreadPoolExecutor(max_workers=10) as executor:
-  for university in database:
-    u_url = university.get("u_url")
-    u_name = university.get("u_name")
-    if u_url and u_name:
-      futures = [executor.submit(fetch_journal_data, u_name, u_url, journal) for journal in university.get("journals")]
+  with ThreadPoolExecutor(max_workers=10) as executor:
+    for university in database:
+      u_url = university.get("u_url")
+      u_name = university.get("u_name")
+      if u_url and u_name:
+        futures = [executor.submit(fetch_journal_data, u_name, u_url, journal, search_criteria) for journal in university.get("journals")]
 
-for future in futures:
-  future.result()
+  for future in futures:
+    future.result()
+
+  end_time = time.time()
+  total_time = end_time - start_time
+  MyPrinter.print_warning(f'Time: {total_time}')
+
+if __name__ == "__main__":
+  main()
