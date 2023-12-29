@@ -1,5 +1,6 @@
 import requests
 import time
+import argparse
 
 from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
@@ -35,12 +36,10 @@ def fetch_journal_data(u_name, u_url, journal, search_criteria):
     else:
       Printer.print_error(response.status_code)
 
-def get_search_criteria():
-  search_criteria = input('Please enter a search criteria without using punctuation symbols: ')
-  search_criteria = search_criteria.replace(' ','+') if search_criteria else ''
-  query="query="+search_criteria if search_criteria else ""
-  date_from_year = input("From what year? ")
-  date_to_year = input("To what year? ")
+def get_search_criteria(args):
+  query="query="+ args.search_criteria if args.search_criteria else ""
+  date_from_year = args.from_year
+  date_to_year = args.to_year
   if query:
     search_criteria = "search?" + query
   if date_from_year:
@@ -50,7 +49,13 @@ def get_search_criteria():
   return search_criteria
 
 def main():
-  search_criteria = get_search_criteria()
+  parser = argparse.ArgumentParser(description='Search Academic Journals')
+  parser.add_argument('search_criteria', type=str, help='Search criteria without using punctuation symbols')
+  parser.add_argument('--from-year', type=str, help='Start year for search', default='')
+  parser.add_argument('--to-year', type=str, help='End year for search', default='')
+  args = parser.parse_args()
+
+  search_criteria = get_search_criteria(args)
   
   start_time = time.time()
 
