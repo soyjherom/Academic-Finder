@@ -1,172 +1,65 @@
-import requests
-from bs4 import BeautifulSoup
+import time
+import argparse
 
-journals = [
-  {
-    "name": "Actualidades Investigativas En Educacion",
-    "field":"Educacion",
-    "url": "https://revistas.ucr.ac.cr/index.php/aie/search/"
-  },
-  {
-    "name": "Cuadernos de Investigación y Formación en Educación Matemática",
-    "field":"Educacion",
-    "url": "https://revistas.ucr.ac.cr/index.php/cifem/search/" 
-  },
-  {
-    "name": "Revista Estudios",
-    "field":"Educacion",
-    "url": "https://revistas.ucr.ac.cr/index.php/estudios/search/"
-  },
-  {
-    "name": "Gestión de la Educación",
-    "field":"Educacion",
-    "url":"https://revistas.ucr.ac.cr/index.php/gestedu/search/"
-  },
-  {
-    "name": "Odovtos",
-    "field":"Educacion",
-    "url":"https://revistas.ucr.ac.cr/index.php/Odontos/search/"
-  },
-  {
-    "name": "Pensar en Movimiento",
-    "field":"Educacion",
-    "url":"https://revistas.ucr.ac.cr/index.php/pem/search/"
-  },
-  {
-    "name":"e-Ciencias de la Información",
-    "field":"Ingenieria",
-    "url":"https://revistas.ucr.ac.cr/index.php/eciencias/search/"
-  },
-  {
-    "name":"Ingeniería",
-    "field":"Ingenieria",
-    "url":"https://revistas.ucr.ac.cr/index.php/ingenieria/search/"
-  },
-  {
-    "name":"Revista de ciencia y tecnología",
-    "field":"Ingenieria",
-    "url":"https://revistas.ucr.ac.cr/index.php/cienciaytecnologia/search/"
-  },
-  {
-    "name":"Infraestructura Vial",
-    "field":"Ingenieria",
-    "url":"https://revistas.ucr.ac.cr/index.php/vial/search/"
-  },
-  {
-    "name":"InterSedes",
-    "field":"Interdisciplinar",
-    "url":"https://revistas.ucr.ac.cr/index.php/intersedes/search/"
-  },
-  {
-    "name":"Káñina",
-    "field":"Artes y letras",
-    "url":"https://revistas.ucr.ac.cr/index.php/kanina/search/"
-  },
-  {
-    "name":"Biología tropical",
-    "field":"Biologia",
-    "url":"https://revistas.ucr.ac.cr/index.php/rbt/search/"
-  },
-  {
-    "name":"Revista de ciencias economicas",
-    "field":"Economia",
-    "url":"https://revistas.ucr.ac.cr/index.php/economicas/search/"
-  },
-  {
-    "name":"Revista de ciencias juridicas",
-    "field":"Derecho",
-    "url":"https://revistas.ucr.ac.cr/index.php/juridicas/search/"
-  },
-  {
-    "name":"Revista de ciencias sociales",
-    "field":"Ciencias sociales",
-    "url":"https://revistas.ucr.ac.cr/index.php/sociales/search/"
-  },
-  {
-    "name":"Filología y Linguística de la UCR",
-    "field":"Ciencias sociales",
-    "url":"https://revistas.ucr.ac.cr/index.php/filyling/search/"
-  },
-  {
-    "name":"Filosofía de la UCR",
-    "field":"Ciencias sociales",
-    "url":"https://revistas.ucr.ac.cr/index.php/filosofia/search/"
-  },
-  {
-    "name":"",
-    "field":"",
-    "url":""
-  },
-  {
-    "name":"",
-    "field":"",
-    "url":""
-  },
-  {
-    "name":"",
-    "field":"",
-    "url":""
-  },
-]
+from concurrent.futures import ThreadPoolExecutor
 
-class Colors:
-  RED = '\033[91m'
-  GREEN = '\033[92m'
-  YELLOW = '\033[93m'
-  BLUE = '\033[94m'
-  WHITE = '\033[97m'
-  MAGENTA = '\033[35m'
+from printing_utils import Printer
+from database_utils import load_data
+from University import University
+from Crawlers import UCRCrawler, ITCRCrawler
 
-class MyPrinter:
-  def print_field(message):
-    print(f"{Colors.MAGENTA}{message}{Colors.MAGENTA}")
-  def print_warning(message):
-    print(f"{Colors.YELLOW}{message}{Colors.YELLOW}")
-  def print_info(message):
-    print(f"{Colors.WHITE}{message}{Colors.WHITE}")
-  def print_finding(message):
-    print(f"{Colors.GREEN}{message}{Colors.GREEN}")
-  def print_error(message):
-    print(f'{Colors.RED}Request error: {message}{Colors.RED}')
-  def print_link(message):
-    print(f'{Colors.BLUE}AT: {message}{Colors.BLUE}')
-  
-
-def set_search_criteria():
-  search_criteria = input('Please enter a search criteria without using punctuation symbols: ')
-  search_criteria = search_criteria.replace(' ','+') if search_criteria else ''
-  query="query="+search_criteria if search_criteria else ""
-  date_from_year = input("From what year? ")
-  date_to_year = input("To what year? ")
+def get_search_criteria(args):
+  query="query="+ args.query if args.query else ""
+  date_from_year = args.from_year
+  date_to_year = args.to_year
   if query:
-    search_criteria = "search?" + query
+    query = "search?" + query
   if date_from_year:
-    search_criteria += "&dateFromYear=" + date_from_year
+    query += "&dateFromYear=" + date_from_year
   if date_to_year:
-    search_criteria += "&dateToYear=" + date_to_year
-  return search_criteria
+    query += "&dateToYear=" + date_to_year
+  return query
 
-search_criteria = set_search_criteria()
+def main():
+  parser = argparse.ArgumentParser(description='Search Academic Journals')
+  parser.add_argument('query', type=str, help='Search criteria without using punctuation symbols')
+  parser.add_argument('--from-year', type=str, help='Start year for search', default='')
+  parser.add_argument('--to-year', type=str, help='End year for search', default='')
+  parser.add_argument('--u', type=str, help='University', default='ALL')
+  parser.add_argument('--id', type=str, help="Journal ID", default='')
 
-for journal in journals:
-  url = journal.get("url")
-  if url:
-    url += search_criteria
-    name = journal.get("name")
-    MyPrinter.print_field(f'Field: {journal.get("field")}')
-    MyPrinter.print_info(f'Searching into {name}')
-    MyPrinter.print_info(f'Using {url} Please wait...')
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-      soup = BeautifulSoup(response.text, 'lxml')
-      divs = soup.find_all('div', class_='article-summary-title')
-      if divs:
-        MyPrinter.print_warning(f'{len(divs)} Results')
-        for div in divs:
-          MyPrinter.print_finding(div.get_text(strip=True))
-          MyPrinter.print_link(div.find('a')['href'])
-      else:
-        MyPrinter.print_warning(f'{len(divs)} Results')
-    else:
-      MyPrinter.print_error(response.status_code)
+  args = parser.parse_args()
+
+  uni = args.u
+
+  query = get_search_criteria(args)
+  
+  start_time = time.time()
+
+  database = load_data()
+
+  journal_id = args.id
+
+  with ThreadPoolExecutor(max_workers=10) as executor:
+    for university in database:
+      u_url = university.get("u_url")
+      u_name = university.get("u_name")
+      journals = university.get("journals")
+      if journal_id:
+        journals = [journal for journal in journals if journal['id']==journal_id]
+      if u_url and u_name:
+        if u_name.upper() == University.UCR.name and (uni == University.ALL.name or uni == University.UCR.name):
+          futures = [executor.submit(UCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
+        elif u_name.upper() == University.ITCR.name and (uni==University.ALL.name or uni == University.ITCR.name):
+          futures = [executor.submit(ITCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
+
+  for future in futures:
+    future.result()
+
+  end_time = time.time()
+  total_time = end_time - start_time
+  Printer.print_warning(f'Time: {total_time}')
+  input('Press any key to exit')
+
+if __name__ == "__main__":
+  main()

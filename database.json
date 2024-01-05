@@ -1,0 +1,241 @@
+[
+  {
+    "u_name": "UCR",
+    "u_url": "https://revistas.ucr.ac.cr/index.php/",
+    "journals":[
+      {
+        "id":"aie",
+        "name": "Actualidades Investigativas En Educacion",
+        "field":"Educacion",
+        "url": "/search/"
+      },
+      {
+        "id":"cifem",
+        "name": "Cuadernos de Investigación y Formación en Educación Matemática",
+        "field":"Educacion",
+        "url": "/search/" 
+      },
+      {
+        "id":"estudios",
+        "name": "Revista Estudios",
+        "field":"Educacion",
+        "url": "/search/"
+      },
+      {
+        "id":"gestedu",
+        "name": "Gestión de la Educación",
+        "field":"Educacion",
+        "url":"/search/"
+      },
+      {
+        "id":"Odontos",
+        "name": "Odovtos",
+        "field":"Educacion",
+        "url":"/search/"
+      },
+      {
+        "id":"pem",
+        "name": "Pensar en Movimiento",
+        "field":"Educacion",
+        "url":"/search/"
+      },
+      {
+        "id":"eciencias",
+        "name":"e-Ciencias de la Información",
+        "field":"Ingenieria",
+        "url":"/search/"
+      },
+      {
+        "id":"ingenieria",
+        "name":"Ingeniería",
+        "field":"Ingenieria",
+        "url":"/search/"
+      },
+      {
+        "id":"cienciaytecnologia",
+        "name":"Revista de ciencia y tecnología",
+        "field":"Ingenieria",
+        "url":"/search/"
+      },
+      {
+        "id":"vial",
+        "name":"Infraestructura Vial",
+        "field":"Ingenieria",
+        "url":"/search/"
+      },
+      {
+        "id":"intersedes",
+        "name":"InterSedes",
+        "field":"Interdisciplinar",
+        "url":"/search/"
+      },
+      {
+        "id":"kanina",
+        "name":"Káñina",
+        "field":"Artes y letras",
+        "url":"/search/"
+      },
+      {
+        "id":"rbt",
+        "name":"Biología tropical",
+        "field":"Biologia",
+        "url":"/search/"
+      },
+      {
+        "id":"economicas",
+        "name":"Revista de ciencias economicas",
+        "field":"Economia",
+        "url":"/search/"
+      },
+      {
+        "id":"juridicas",
+        "name":"Revista de ciencias juridicas",
+        "field":"Derecho",
+        "url":"/search/"
+      },
+      {
+        "id":"sociales",
+        "name":"Revista de ciencias sociales",
+        "field":"Ciencias sociales",
+        "url":"/search/"
+      },
+      {
+        "id":"filyling",
+        "name":"Filología y Linguística de la UCR",
+        "field":"Ciencias sociales",
+        "url":"/search/"
+      },
+      {
+        "id":"filosofia",
+        "name":"Filosofía de la UCR",
+        "field":"Ciencias sociales",
+        "url":"/search/"
+      },
+      {
+        "id":"",
+        "name":"",
+        "field":"",
+        "url":""
+      },
+      {
+        "id":"",
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ] 
+  },
+  {
+    "u_name": "ITCR",
+    "u_url": "https://revistas.tec.ac.cr/index.php/",
+    "journals":[
+      {
+        "id":"eagronegocios",
+        "name":"Agronegocios",
+        "field":"Agronomia y economia",
+        "url":"/search/search/"
+      },
+      {
+        "id":"investiga_tec",
+        "name":"Investiga.TEC",
+        "field":"General",
+        "url":"/search/search/"
+      },
+      {
+        "id":"agroinn",
+        "name":"AgroInovacion en el tropico humedo",
+        "field":"Agronomia",
+        "url":"/search/search/"
+      },
+      {
+        "id":"comunicacion",
+        "name":"Revista Comunicación",
+        "field":"Comunicación",
+        "url":"/search/search/"
+      },
+      {
+        "id":"matematica",
+        "name":"Matemática Educación e Internet",
+        "field":"Enseñanza de las matemáticas",
+        "url":"/search/search/"
+      },
+      {
+        "id":"kuru",
+        "name":"Revista forestal mesoamericana Kurú",
+        "field":"Agroforestal",
+        "url":"/search/search/"
+      },
+      {
+        "id":"idi",
+        "name":"Revista IDI",
+        "field":"Investigación y desarrollo",
+        "url":"/search/search/"
+      },
+      {
+        "id":"tec_marcha",
+        "name":"Tecnología en marcha",
+        "field":"Ingeniería",
+        "url":"/search/search/"
+      },
+      {
+        "id":"tec_empresarial",
+        "name":"Tec empresarial",
+        "field":"Negocios",
+        "url":"/search/search/"
+      },
+      {
+        "id":"trama",
+        "name":"Trama",
+        "field":"Ciencias sociales y humanidades",
+        "url":"/search/search/"
+      },
+      {
+        "id":"ventana",
+        "name":"Ventana",
+        "field":"Sociocultural",
+        "url":"/search/search/"
+      },
+      {
+        "id":"memorias",
+        "name":"Memorias de congresos TEC",
+        "field":"Actividades académicas",
+        "url":"/search/search/"
+      }
+    ]
+  },
+  {
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "id":"",
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  },
+  {
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "id":"",
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  },{
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "id":"",
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  }
+]
