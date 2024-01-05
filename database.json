@@ -106,6 +106,48 @@
     ] 
   },
   {
+    "u_name": "ITCR",
+    "u_url": "https://revistas.tec.ac.cr/index.php/",
+    "journals":[
+      {
+        "name":"Agronegocios",
+        "field":"Agronomia y economia",
+        "url":"eagronegocios/search/search/"
+      },
+      {
+        "name":"Investiga.TEC",
+        "field":"General",
+        "url":"investiga_tec/search/search/"
+      },
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  },
+  {
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  },
+  {
+    "u_name": "",
+    "u_url": "",
+    "journals":[
+      {
+        "name":"",
+        "field":"",
+        "url":""
+      }
+    ]
+  },{
     "u_name": "",
     "u_url": "",
     "journals":[
