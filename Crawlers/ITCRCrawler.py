@@ -7,7 +7,7 @@ from Result import Result
 
 def fetch_data(u_url, journal, search_criteria):
   results = []
-  url = u_url + journal.get("url") + search_criteria
+  url = u_url + journal.get("id") + journal.get("url") + search_criteria
   name = journal.get("name")
   if name:
     response = requests.get(url)

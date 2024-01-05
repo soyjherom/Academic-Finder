@@ -1,8 +1,9 @@
 from enum import Enum
 
 class University(Enum):
-  UCR="UCR"
-  ITCR="ITCR"
-  UNA="UNA"
-  UNED="UNED"
-  UTN="UTN"
+  UCR=1
+  ITCR=2
+  UNA=3
+  UNED=4
+  UTN=5
+  ALL=6

@@ -25,7 +25,12 @@ def main():
   parser.add_argument('query', type=str, help='Search criteria without using punctuation symbols')
   parser.add_argument('--from-year', type=str, help='Start year for search', default='')
   parser.add_argument('--to-year', type=str, help='End year for search', default='')
+  parser.add_argument('--u', type=str, help='University', default='ALL')
+  parser.add_argument('--id', type=str, help="Journal ID", default='')
+
   args = parser.parse_args()
+
+  uni = args.u
 
   query = get_search_criteria(args)
   
@@ -33,15 +38,19 @@ def main():
 
   database = load_data()
 
+  journal_id = args.id
+
   with ThreadPoolExecutor(max_workers=10) as executor:
     for university in database:
       u_url = university.get("u_url")
       u_name = university.get("u_name")
       journals = university.get("journals")
+      if journal_id:
+        journals = [journal for journal in journals if journal['id']==journal_id]
       if u_url and u_name:
-        if u_name.upper() == University.UCR.name:
+        if u_name.upper() == University.UCR.name and (uni == University.ALL.name or uni == University.UCR.name):
           futures = [executor.submit(UCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
-        elif u_name.upper() == University.ITCR.name:
+        elif u_name.upper() == University.ITCR.name and (uni==University.ALL.name or uni == University.ITCR.name):
           futures = [executor.submit(ITCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
 
   for future in futures:
