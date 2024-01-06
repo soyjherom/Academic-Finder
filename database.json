@@ -204,14 +204,20 @@
     ]
   },
   {
-    "u_name": "",
-    "u_url": "",
+    "u_name": "UNA",
+    "u_url": "https://www.revistas.una.ac.cr/index.php/",
     "journals":[
       {
-        "id":"",
-        "name":"",
-        "field":"",
-        "url":""
+        "id":"acs",
+        "name":"Arte, cultura y sociedad: Revista de investigación a través de la práctica artística",
+        "field":"Arte, cultura y sociedad",
+        "url":"/search/search/"
+      },
+      {
+        "id":"bibliotecas",
+        "name":"Bibliotecas",
+        "field":"Bibliotecologia",
+        "url":"/search/search/"
       }
     ]
   },

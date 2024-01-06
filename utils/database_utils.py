@@ -2,9 +2,9 @@ import json
 import os
 import sys
 
-from printing_utils import Printer
+from utils.printing_utils import Printer
 
-DATABASE_NAME = "database.json"
+DATABASE_NAME = "../database.json"
 
 def get_database_location():
   if getattr(sys, 'frozen', False):
