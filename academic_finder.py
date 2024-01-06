@@ -3,22 +3,11 @@ import argparse
 
 from concurrent.futures import ThreadPoolExecutor
 
-from printing_utils import Printer
-from database_utils import load_data
+from utils.printing_utils import Printer
+from utils.database_utils import load_data
+from utils.search_criteria_utils import get_search_criteria, get_form_data_criteria
 from University import University
-from Crawlers import UCRCrawler, ITCRCrawler
-
-def get_search_criteria(args):
-  query="query="+ args.query if args.query else ""
-  date_from_year = args.from_year
-  date_to_year = args.to_year
-  if query:
-    query = "search?" + query
-  if date_from_year:
-    query += "&dateFromYear=" + date_from_year
-  if date_to_year:
-    query += "&dateToYear=" + date_to_year
-  return query
+from crawlers import UCRCrawler, ITCRCrawler, UNACrawler
 
 def main():
   parser = argparse.ArgumentParser(description='Search Academic Journals')
@@ -27,12 +16,14 @@ def main():
   parser.add_argument('--to-year', type=str, help='End year for search', default='')
   parser.add_argument('--u', type=str, help='University', default='ALL')
   parser.add_argument('--id', type=str, help="Journal ID", default='')
+  parser.add_argument('--v', type=bool, help="Verbose URL", default=False)
 
   args = parser.parse_args()
 
   uni = args.u
+  is_verbose = args.v
 
-  query = get_search_criteria(args)
+  query = get_search_criteria(args) if uni and uni != University.UNA else get_form_data_criteria(args)
   
   start_time = time.time()
 
@@ -49,9 +40,11 @@ def main():
         journals = [journal for journal in journals if journal['id']==journal_id]
       if u_url and u_name:
         if u_name.upper() == University.UCR.name and (uni == University.ALL.name or uni == University.UCR.name):
-          futures = [executor.submit(UCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
+          futures = [executor.submit(UCRCrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
         elif u_name.upper() == University.ITCR.name and (uni==University.ALL.name or uni == University.ITCR.name):
-          futures = [executor.submit(ITCRCrawler.fetch_data, u_url, journal, query) for journal in journals]
+          futures = [executor.submit(ITCRCrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
+        elif u_name.upper() == University.UNA.name and (uni==University.ALL.name or uni == University.UNA.name):
+          futures = [executor.submit(UNACrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
 
   for future in futures:
     future.result()
