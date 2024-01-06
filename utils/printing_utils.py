@@ -27,7 +27,19 @@ class Printer:
   @staticmethod
   def print_error(message):
     print(f'{Colors.RED}Error: {message}{Colors.RED}')
+
+  @staticmethod
+  def print_error(message, url):
+    print(f'{Colors.RED}Error: {message} {url}{Colors.RED}')
   
   @staticmethod
   def print_link(message):
     print(f'{Colors.BLUE}AT: {message}{Colors.BLUE}')
+
+  @staticmethod
+  def print_name_not_found():
+    print(f"{Colors.RED}Name not found{Colors.RED}")
+
+  @staticmethod
+  def print_no_results(name):
+    print(f"{Colors.RED}{name}: No results retrieved{Colors.RED}")
