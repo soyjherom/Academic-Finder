@@ -7,7 +7,7 @@ from utils.printing_utils import Printer
 from utils.database_utils import load_data
 from utils.search_criteria_utils import get_search_criteria, get_form_data_criteria
 from University import University
-from crawlers import UCRCrawler, ITCRCrawler, UNACrawler
+from crawlers import TECCrawler, UCRCrawler, UNACrawler
 
 def main():
   parser = argparse.ArgumentParser(description='Search Academic Journals')
@@ -27,7 +27,7 @@ def main():
   
   start_time = time.time()
 
-  database = load_data()
+  database = load_data(is_verbose)
 
   journal_id = args.id
 
@@ -42,7 +42,7 @@ def main():
         if u_name.upper() == University.UCR.name and (uni == University.ALL.name or uni == University.UCR.name):
           futures = [executor.submit(UCRCrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
         elif u_name.upper() == University.ITCR.name and (uni==University.ALL.name or uni == University.ITCR.name):
-          futures = [executor.submit(ITCRCrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
+          futures = [executor.submit(TECCrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
         elif u_name.upper() == University.UNA.name and (uni==University.ALL.name or uni == University.UNA.name):
           futures = [executor.submit(UNACrawler.fetch_data, u_url, journal, query, is_verbose) for journal in journals]
 
